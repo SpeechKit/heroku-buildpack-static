@@ -119,13 +119,6 @@ http {
       proxy_redirect <%= hash["redirect_#{scheme}"] %> <%= location %>;
       <% end %>
     }
-
-    location /assets/ {
-      proxy_pass https://blog.speechkit.com/assets/;
-    }
-    location /content/ {
-      proxy_pass https://blog.speechkit.com/content/;
-    }
   <% end %>
 
   # fallback redirects named match
