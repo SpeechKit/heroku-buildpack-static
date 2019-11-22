@@ -105,7 +105,7 @@ http {
   <% proxies.each do |location, hash| %>
     set $<%= hash['name'] %> <%= hash['host'] %>;
     location @<%= location %> {
-      rewrite ^<%= location %>/?(([a-z]|\/)+)$ <%= hash['path'] %>/$1 break;
+      rewrite ^<%= location %>/?(.*)$ <%= hash['path'] %>/$1 break;
       # can reuse variable set above
       proxy_pass $<%= hash['name'] %>;
       proxy_ssl_server_name on;
@@ -118,6 +118,13 @@ http {
       <% %w(http https).each do |scheme| %>
       proxy_redirect <%= hash["redirect_#{scheme}"] %> <%= location %>;
       <% end %>
+    }
+
+    location /assets/ {
+      proxy_pass https://blog.speechkit.com/assets/;
+    }
+    location /content/ {
+      proxy_pass https://blog.speechkit.com/content/;
     }
   <% end %>
 
